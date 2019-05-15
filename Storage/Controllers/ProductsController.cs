@@ -12,7 +12,7 @@ namespace Storage.Controllers
     public class ProductsController : Controller
     {
         private readonly StorageContext _context;
-
+        
         public ProductsController(StorageContext context)
         {
             _context = context;
@@ -41,6 +41,23 @@ namespace Storage.Controllers
 
             return View(product);
         }
+
+
+        // GET: Products/Inventory
+        public IActionResult GetInventory()
+        {
+            var inventorySum = _context.Product.Select(t => new ProductViewModel()
+            {
+                 Name = t.Name,
+                 Count = t.Count,
+                 Price = t.Price,
+                 InventoryValue = t.Count * t.Price
+            }).ToList();
+            return View(inventorySum);
+        }
+
+
+
 
         // GET: Products/Create
         public IActionResult Create()
